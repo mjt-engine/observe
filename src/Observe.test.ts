@@ -1,14 +1,43 @@
 import { describe, test, expect } from "vitest";
 import { Observe } from "./Observe";
+import { ObserveAgent } from "./ObserveAgent";
 
 describe("Observe", () => {
-  test("empty");
-  test("span", () => {
-    const obs = Observe("test");
-    const span = obs.span("span1");
-    span.log("test message");
-    span.log("test message", 1, 2, 3);
-    span.end();
-    span.span("span2").log("test message").end();
+  test("logging", () => {
+    type LogItem = {
+      message: string;
+      extra: unknown[];
+    };
+    const logMessages: LogItem[] = [];
+    const testLogger = (message: string, ...extra: unknown[]) => {
+      logMessages.push({ message, extra });
+      console.log(message, ...extra);
+    };
+    let clockStep = 0;
+    const agent = ObserveAgent({
+      matchers: ["root.span2"],
+      logger: testLogger,
+      clock: {
+        now: () => clockStep++,
+      },
+    });
+    {
+      const obs = Observe("root", agent);
+      const span = obs.span("span1");
+      span.log("test message");
+      span.log("test message", 1, 2, 3);
+      span.end();
+      obs
+        .span("span2")
+        .log("test message")
+        .log("test message2", "a", "b", 42)
+        .end();
+      expect(logMessages.length).toEqual(4);
+      expect(logMessages[0].message).toEqual("5 root.span2: start");
+      expect(logMessages[1].message).toEqual("6 root.span2: test message");
+      expect(logMessages[2].message).toEqual("7 root.span2: test message2");
+      expect(logMessages[2].extra).toEqual(["a", "b", 42]);
+      expect(logMessages[3].message).toEqual("8 root.span2: end");
+    }
   });
 });

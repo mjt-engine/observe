@@ -1,51 +1,25 @@
-import { TraceId } from "./TraceId";
+import { ObserveAgent } from "./ObserveAgent";
 
 export type Observe = {
-  span: (spanName: string) => Observe;
+  span: (spanId: string) => Observe;
   log: (message: string, ...extra: unknown[]) => Observe;
   end: () => Observe;
 };
 
-export type ObserveAgent = {
-  start: (traceId: TraceId) => void;
-  addLog: (traceId: TraceId, message: string, ...extra: unknown[]) => void;
-  end: (traceId: TraceId) => void;
-};
-
-export const ObserveAgent = (): ObserveAgent => {
-  return {
-    start: (traceId: TraceId) => {
-      console.log(`Start: ${traceId}`);
-    },
-    addLog: (traceId: TraceId, message: string, ...extra: unknown[]) => {
-      console.log(`${traceId}: ${message}`, ...extra);
-    },
-    end: (traceId: TraceId) => {
-      console.log(`End: ${traceId}`);
-    },
-  };
-};
-
 export const Observe = (
-  name: string = "",
+  traceId: string = "",
   agent: ObserveAgent = ObserveAgent()
 ) => {
-  agent.start(name);
+  agent.start(traceId);
   const mod: Observe = {
-    span: (spanName: string) => Observe(`${name}.${spanName}`, agent),
+    span: (spanId: string) => Observe(`${traceId}.${spanId}`, agent),
     end: () => {
-      agent.end(name);
+      agent.end(traceId);
       return mod;
     },
     log: (message: string, ...extra) => {
-      agent.addLog(`${name}`, message, ...extra);
+      agent.addLog({ traceId, message, extra });
       return mod;
-      // const logMessage = `${name}: ${message}`;
-      // if (parent) {
-      //   parent.log(logMessage);
-      // } else {
-      //   console.log(logMessage);
-      // }
     },
   };
 
