@@ -1,46 +1,60 @@
-const a = (t) => (s) => {
-  if (t.length === 0)
-    return !1;
-  const n = t.map((e) => new RegExp(e));
-  for (const e of n)
-    if (e.test(s))
+const c = (t) => (e) => {
+  if (typeof t == "string")
+    return new RegExp(t).test(e.traceId);
+  const {
+    traceId: s,
+    message: r,
+    extra: n = () => !0,
+    timestamp: o = () => !0
+  } = t;
+  return !(s && !new RegExp(s).test(e.traceId) || r && !new RegExp(r).test(e.message) || e.timestamp && !o(e.timestamp) || e.extra && !n(e.extra));
+}, f = (t) => (e) => {
+  for (const s of t)
+    if (c(s)(e))
       return !0;
   return !1;
-}, c = ({
+}, d = ({
   logMatchers: t = [],
-  logger: s = console.log,
-  clock: n = performance
+  logger: e = console.log,
+  clock: s = performance
 } = {}) => {
-  const e = {
-    start: (r, ...o) => {
-      e.addLog({ traceId: r, message: "start", extra: o });
+  const r = {
+    start: (n, ...o) => {
+      r.addLog({ traceId: n, message: "start", extra: o });
     },
-    addLog: ({ traceId: r, message: o, timestamp: d = n.now(), extra: u = [] }) => {
-      a(t)(r) && s(`${d} ${r}: ${o}`, ...u);
+    addLog: ({ traceId: n, message: o, timestamp: a = s.now(), extra: u = [] }) => {
+      f(t)({
+        traceId: n,
+        message: o,
+        timestamp: a,
+        extra: u
+      }) && e(`${a} ${n}: ${o}`, ...u);
     },
-    end: (r, ...o) => {
-      e.addLog({ traceId: r, message: "end", extra: o });
+    end: (n, ...o) => {
+      r.addLog({ traceId: n, message: "end", extra: o });
     }
   };
-  return e;
-}, g = (t = "", s = c()) => {
-  s.start(t);
-  const n = {
-    span: (e) => g(`${t}.${e}`, s),
-    end: () => (s.end(t), n),
-    log: (e, ...r) => (s.addLog({ traceId: t, message: e, extra: r }), n)
+  return r;
+}, i = (t = "", e = d()) => {
+  e.start(t);
+  const s = {
+    span: (r) => i(`${t}.${r}`, e),
+    end: () => (e.end(t), s),
+    log: (r, ...n) => (e.addLog({ traceId: t, message: r, extra: n }), s)
   };
-  return n;
-}, f = (t) => {
-  const s = t.split("."), n = s.shift(), e = s.join(".");
+  return s;
+}, p = (t) => {
+  const e = t.split("."), s = e.shift(), r = e.join(".");
   return {
-    root: n,
-    segments: s,
-    subpath: e
+    root: s,
+    segments: e,
+    subpath: r
   };
 };
 export {
-  g as Observe,
-  c as ObserveAgent,
-  f as parseTraceId
+  i as Observe,
+  d as ObserveAgent,
+  f as atLeastOneLogMatcherMatchesLogEntry,
+  c as logMatcherMatchesLogEntry,
+  p as parseTraceId
 };

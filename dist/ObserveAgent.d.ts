@@ -5,8 +5,16 @@ export type ObserveAgent = {
     addLog: (entry: LogEntry) => void;
     end: (traceId: TraceId, ...extra: unknown[]) => void;
 };
+export type LogMatcher = Partial<{
+    traceId: string;
+    message: string;
+    timestamp: (timestamp: number) => boolean;
+    extra: (extra: unknown[]) => boolean;
+}>;
+export declare const logMatcherMatchesLogEntry: (logMatcher: string | LogMatcher) => (logEntry: LogEntry) => boolean;
+export declare const atLeastOneLogMatcherMatchesLogEntry: (logMatchers: (string | LogMatcher)[]) => (logEntry: LogEntry) => boolean;
 export declare const ObserveAgent: ({ logMatchers, logger, clock, }?: Partial<{
-    logMatchers: TraceId[];
+    logMatchers: (string | LogMatcher)[];
     logger: typeof console.log;
     clock: {
         now: () => number;

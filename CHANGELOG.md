@@ -2,6 +2,7 @@
 
 
 ## 2025-04-23
+- more complex log matching ([ec3e7f0](https://github.com/mjt-engine/observe/commit/ec3e7f087eadcefa771eef0ece928bda92338001)) by Matt Taylor
 - regex for match language ([c596538](https://github.com/mjt-engine/observe/commit/c5965384156f34464132ea5efc323187dc0347eb)) by Matt Taylor
 - better logging matchers with globs ([0fdc40a](https://github.com/mjt-engine/observe/commit/0fdc40ac36699bac1c6bda9bef8f9213d8621246)) by Matt Taylor
 - refined ObserveAgent, added timestamps to log and clock to Agent ([a422d61](https://github.com/mjt-engine/observe/commit/a422d61169ea46d38f7811809e675e7c39498171)) by Matt Taylor
