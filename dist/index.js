@@ -1,60 +1,68 @@
-const c = (t) => (e) => {
+const i = (t) => (e) => {
   if (typeof t == "string")
     return new RegExp(t).test(e.traceId);
   const {
-    traceId: s,
-    message: r,
+    traceId: r,
+    message: s,
     extra: n = () => !0,
     timestamp: o = () => !0
   } = t;
-  return !(s && !new RegExp(s).test(e.traceId) || r && !new RegExp(r).test(e.message) || e.timestamp && !o(e.timestamp) || e.extra && !n(e.extra));
-}, f = (t) => (e) => {
-  for (const s of t)
-    if (c(s)(e))
-      return !0;
+  return !(r && !new RegExp(r).test(e.traceId) || s && !new RegExp(s).test(e.message) || e.timestamp && !o(e.timestamp) || e.extra && !n(e.extra));
+}, d = (t) => (e) => {
+  for (const r of t)
+    if (i(r)(e))
+      return r;
   return !1;
-}, d = ({
+}, p = (t) => (e) => typeof t == "string" ? e : t.transform ? t.transform(e) : e, g = ({
   logMatchers: t = [],
   logger: e = console.log,
-  clock: s = performance
+  clock: r = performance
 } = {}) => {
-  const r = {
+  const s = {
     start: (n, ...o) => {
-      r.addLog({ traceId: n, message: "start", extra: o });
+      s.addLog({ traceId: n, message: "start", extra: o });
     },
-    addLog: ({ traceId: n, message: o, timestamp: a = s.now(), extra: u = [] }) => {
-      f(t)({
+    addLog: ({ traceId: n, message: o, timestamp: u = r.now(), extra: m = [] }) => {
+      const f = {
         traceId: n,
         message: o,
-        timestamp: a,
-        extra: u
-      }) && e(`${a} ${n}: ${o}`, ...u);
+        timestamp: u,
+        extra: m
+      }, c = d(t)(f);
+      if (!c)
+        return;
+      const a = p(c)(f);
+      e(
+        `${a.timestamp} ${a.traceId}: ${a.message}`,
+        ...a.extra ?? []
+      );
     },
     end: (n, ...o) => {
-      r.addLog({ traceId: n, message: "end", extra: o });
+      s.addLog({ traceId: n, message: "end", extra: o });
     }
   };
-  return r;
-}, i = (t = "", e = d()) => {
-  e.start(t);
-  const s = {
-    span: (r) => i(`${t}.${r}`, e),
-    end: () => (e.end(t), s),
-    log: (r, ...n) => (e.addLog({ traceId: t, message: r, extra: n }), s)
-  };
   return s;
-}, p = (t) => {
-  const e = t.split("."), s = e.shift(), r = e.join(".");
+}, L = (t = "", e = g()) => {
+  e.start(t);
+  const r = {
+    span: (s) => L(`${t}.${s}`, e),
+    end: () => (e.end(t), r),
+    log: (s, ...n) => (e.addLog({ traceId: t, message: s, extra: n }), r)
+  };
+  return r;
+}, x = (t) => {
+  const e = t.split("."), r = e.shift(), s = e.join(".");
   return {
-    root: s,
+    root: r,
     segments: e,
-    subpath: r
+    subpath: s
   };
 };
 export {
-  i as Observe,
-  d as ObserveAgent,
-  f as atLeastOneLogMatcherMatchesLogEntry,
-  c as logMatcherMatchesLogEntry,
-  p as parseTraceId
+  L as Observe,
+  g as ObserveAgent,
+  d as atLeastOneLogMatcherMatchesLogEntry,
+  i as logMatcherMatchesLogEntry,
+  x as parseTraceId,
+  p as transformLogEntry
 };

@@ -2,6 +2,7 @@
 
 
 ## 2025-04-23
+- added log transform ([af4e2f7](https://github.com/mjt-engine/observe/commit/af4e2f7487e765a5a61cad6ec0787da5b8850831)) by Matt Taylor
 - more complex log matching ([ec3e7f0](https://github.com/mjt-engine/observe/commit/ec3e7f087eadcefa771eef0ece928bda92338001)) by Matt Taylor
 - regex for match language ([c596538](https://github.com/mjt-engine/observe/commit/c5965384156f34464132ea5efc323187dc0347eb)) by Matt Taylor
 - better logging matchers with globs ([0fdc40a](https://github.com/mjt-engine/observe/commit/0fdc40ac36699bac1c6bda9bef8f9213d8621246)) by Matt Taylor
