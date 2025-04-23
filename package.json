@@ -1,0 +1,35 @@
+{
+  "name": "@mjt-engine/observe",
+  "version": "2025.4.23-1103",
+  "sideEffects": false,
+  "description": "Observe module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "docs": "typedoc src/index.ts",
+    "build-docs": "pnpm run build && pnpm run docs",
+    "changelog": "./scripts/changes.sh > CHANGELOG.md",
+    "changelog-version": "pnpm run changelog && ./scripts/version.sh",
+    "publish": "pnpm run build-docs && pnpm run changelog-version",
+    "check": "tsc --noEmit -w",
+    "test": "vitest",
+    "start": "vite build --watch",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "dts": "tsc"
+  },
+  "keywords": [],
+  "author": "Matt Taylor (https://mjt.dev)",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typedoc": "^0.27.9",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.2",
+    "vitest": "^3.1.2"
+  },
+  "dependencies": {
+    "@mjt-engine/error": "github:mjt-engine/error",
+    "@mjt-engine/object": "github:mjt-engine/object"
+  }
+}
