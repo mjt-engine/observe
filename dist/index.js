@@ -1,53 +1,46 @@
-const f = (e) => (t) => {
-  if (e.length === 0)
+const a = (t) => (s) => {
+  if (t.length === 0)
     return !1;
-  for (const s of e) {
-    if (s.startsWith("*") && t.endsWith(s.slice(1)) || s.endsWith("*") && t.startsWith(s.slice(0, -1)))
+  const n = t.map((e) => new RegExp(e));
+  for (const e of n)
+    if (e.test(s))
       return !0;
-    if (s.includes("*")) {
-      const r = s.split("*")[0], n = s.split("*")[1];
-      if (t.startsWith(r) && t.endsWith(n))
-        return !0;
-    }
-    if (t.startsWith(s))
-      return !0;
-  }
   return !1;
-}, a = ({
-  logMatchers: e = [],
-  logger: t = console.log,
-  clock: s = performance
+}, c = ({
+  logMatchers: t = [],
+  logger: s = console.log,
+  clock: n = performance
 } = {}) => {
-  const r = {
-    start: (n, ...o) => {
-      r.addLog({ traceId: n, message: "start", extra: o });
+  const e = {
+    start: (r, ...o) => {
+      e.addLog({ traceId: r, message: "start", extra: o });
     },
-    addLog: ({ traceId: n, message: o, timestamp: i = s.now(), extra: u = [] }) => {
-      f(e)(n) && t(`${i} ${n}: ${o}`, ...u);
+    addLog: ({ traceId: r, message: o, timestamp: d = n.now(), extra: u = [] }) => {
+      a(t)(r) && s(`${d} ${r}: ${o}`, ...u);
     },
-    end: (n, ...o) => {
-      r.addLog({ traceId: n, message: "end", extra: o });
+    end: (r, ...o) => {
+      e.addLog({ traceId: r, message: "end", extra: o });
     }
   };
-  return r;
-}, c = (e = "", t = a()) => {
-  t.start(e);
-  const s = {
-    span: (r) => c(`${e}.${r}`, t),
-    end: () => (t.end(e), s),
-    log: (r, ...n) => (t.addLog({ traceId: e, message: r, extra: n }), s)
+  return e;
+}, g = (t = "", s = c()) => {
+  s.start(t);
+  const n = {
+    span: (e) => g(`${t}.${e}`, s),
+    end: () => (s.end(t), n),
+    log: (e, ...r) => (s.addLog({ traceId: t, message: e, extra: r }), n)
   };
-  return s;
-}, d = (e) => {
-  const t = e.split("."), s = t.shift(), r = t.join(".");
+  return n;
+}, f = (t) => {
+  const s = t.split("."), n = s.shift(), e = s.join(".");
   return {
-    root: s,
-    segments: t,
-    subpath: r
+    root: n,
+    segments: s,
+    subpath: e
   };
 };
 export {
-  c as Observe,
-  a as ObserveAgent,
-  d as parseTraceId
+  g as Observe,
+  c as ObserveAgent,
+  f as parseTraceId
 };
