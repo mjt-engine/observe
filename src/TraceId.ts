@@ -7,7 +7,7 @@ export type ParsedTraceId<T extends string = string> = {
   subpath: string;
 };
 
-export const parseSubject = <T extends string = string>(
+export const parseTraceId = <T extends string = string>(
   subject: TraceId<T>
 ): ParsedTraceId<T> => {
   const segments = subject.split(".");

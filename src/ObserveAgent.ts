@@ -9,11 +9,11 @@ export type ObserveAgent = {
 };
 
 export const ObserveAgent = ({
-  matchers = [],
+  logMatchers = [],
   logger = console.log,
   clock = performance,
 }: Partial<{
-  matchers: TraceId[];
+  logMatchers: TraceId[];
   logger: typeof console.log;
   clock: { now: () => number };
 }> = {}): ObserveAgent => {
@@ -22,7 +22,7 @@ export const ObserveAgent = ({
       mod.addLog({ traceId, message: "start", extra });
     },
     addLog: ({ traceId, message, timestamp = clock.now(), extra = [] }) => {
-      if (!traceIdMatches(matchers)(traceId)) {
+      if (!traceIdMatches(logMatchers)(traceId)) {
         return;
       }
       logger(`${timestamp} ${traceId}: ${message}`, ...extra);
