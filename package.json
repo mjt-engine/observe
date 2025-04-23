@@ -1,6 +1,6 @@
 {
   "name": "@mjt-engine/observe",
-  "version": "2025.4.23-1309",
+  "version": "2025.4.23-1404",
   "sideEffects": false,
   "description": "Observe module",
   "main": "./dist/index.js",

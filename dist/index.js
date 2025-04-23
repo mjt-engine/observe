@@ -1,31 +1,45 @@
-const e = () => ({
-  start: (o) => {
-    console.log(`Start: ${o}`);
-  },
-  addLog: (o, t, ...s) => {
-    console.log(`${o}: ${t}`, ...s);
-  },
-  end: (o) => {
-    console.log(`End: ${o}`);
-  }
-}), c = (o = "", t = e()) => {
-  t.start(o);
-  const s = {
-    span: (r) => c(`${o}.${r}`, t),
-    end: () => (t.end(o), s),
-    log: (r, ...n) => (t.addLog(`${o}`, r, ...n), s)
+const d = (s) => (t) => {
+  if (s.length === 0)
+    return !0;
+  for (const e of s)
+    if (t.startsWith(e))
+      return !0;
+  return !1;
+}, a = ({
+  matchers: s = [],
+  logger: t = console.log,
+  clock: e = performance
+} = {}) => {
+  const r = {
+    start: (n, ...o) => {
+      r.addLog({ traceId: n, message: "start", extra: o });
+    },
+    addLog: ({ traceId: n, message: o, timestamp: u = e.now(), extra: c = [] }) => {
+      d(s)(n) && t(`${u} ${n}: ${o}`, ...c);
+    },
+    end: (n, ...o) => {
+      r.addLog({ traceId: n, message: "end", extra: o });
+    }
   };
-  return s;
-}, d = (o) => {
-  const t = o.split("."), s = t.shift(), r = t.join(".");
+  return r;
+}, f = (s = "", t = a()) => {
+  t.start(s);
+  const e = {
+    span: (r) => f(`${s}.${r}`, t),
+    end: () => (t.end(s), e),
+    log: (r, ...n) => (t.addLog({ traceId: s, message: r, extra: n }), e)
+  };
+  return e;
+}, g = (s) => {
+  const t = s.split("."), e = t.shift(), r = t.join(".");
   return {
-    root: s,
+    root: e,
     segments: t,
     subpath: r
   };
 };
 export {
-  c as Observe,
-  e as ObserveAgent,
-  d as parseSubject
+  f as Observe,
+  a as ObserveAgent,
+  g as parseSubject
 };
