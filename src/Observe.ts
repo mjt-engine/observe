@@ -26,7 +26,10 @@ export const ObserveAgent = (): ObserveAgent => {
   };
 };
 
-export const Observe = (name: string, agent: ObserveAgent = ObserveAgent()) => {
+export const Observe = (
+  name: string = "",
+  agent: ObserveAgent = ObserveAgent()
+) => {
   agent.start(name);
   const mod: Observe = {
     span: (spanName: string) => Observe(`${name}.${spanName}`, agent),
