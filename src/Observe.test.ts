@@ -89,7 +89,7 @@ describe("Observe", () => {
     const logMessages: LogItem[] = [];
     const testLogger = (message: string, ...extra: unknown[]) => {
       logMessages.push({ message, extra });
-      console.log(message, ...extra);
+      // console.log(message, ...extra);
     };
     let clockStep = 0;
     const agent = ObserveAgent({
@@ -125,6 +125,61 @@ describe("Observe", () => {
       expect(logMessages[0].message).toEqual("3 root.span1: test message");
       expect(logMessages[0].extra).toEqual([1, 2, 3]);
       expect(logMessages[1].message).toEqual("7 root.span2: test message2");
+      expect(logMessages[1].extra).toEqual(["a", "b", 42]);
+    }
+  });
+
+  test("logMatcher transform", () => {
+    type LogItem = {
+      message: string;
+      extra: unknown[];
+    };
+    const logMessages: LogItem[] = [];
+    const testLogger = (message: string, ...extra: unknown[]) => {
+      logMessages.push({ message, extra });
+      console.log(message, ...extra);
+    };
+    let clockStep = 0;
+    const agent = ObserveAgent({
+      logMatchers: [
+        {
+          traceId: "root.*.span",
+          message: "test message",
+          extra: (extra) => {
+            return extra.length === 3;
+          },
+          transform: (logEntry) => {
+            return { ...logEntry, message: `transformed ${logEntry.message}` };
+          },
+        },
+      ],
+      logger: testLogger,
+      clock: {
+        now: () => clockStep++,
+      },
+    });
+    {
+      const obs = Observe("root", agent);
+      const span = obs.span("span1");
+      span.log("test message");
+      span.log("test message", 1, 2, 3);
+      span.end();
+      obs
+        .span("span2")
+        .log("test message")
+        .log("test message2", "a", "b", 42)
+        .span("span3")
+        .log("test message3")
+        .end();
+
+      expect(logMessages.length).toEqual(2);
+      expect(logMessages[0].message).toEqual(
+        "3 root.span1: transformed test message"
+      );
+      expect(logMessages[0].extra).toEqual([1, 2, 3]);
+      expect(logMessages[1].message).toEqual(
+        "7 root.span2: transformed test message2"
+      );
       expect(logMessages[1].extra).toEqual(["a", "b", 42]);
     }
   });

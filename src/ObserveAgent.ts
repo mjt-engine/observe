@@ -13,6 +13,7 @@ export type LogMatcher = Partial<{
   message: string;
   timestamp: (timestamp: number) => boolean;
   extra: (extra: unknown[]) => boolean;
+  transform: (logEntry: LogEntry) => LogEntry;
 }>;
 
 export const logMatcherMatchesLogEntry =
@@ -45,10 +46,21 @@ export const atLeastOneLogMatcherMatchesLogEntry =
   (logMatchers: (string | LogMatcher)[]) => (logEntry: LogEntry) => {
     for (const logMatcher of logMatchers) {
       if (logMatcherMatchesLogEntry(logMatcher)(logEntry)) {
-        return true;
+        return logMatcher;
       }
     }
     return false;
+  };
+
+export const transformLogEntry =
+  (matcher: string | LogMatcher) => (logEntry: LogEntry) => {
+    if (typeof matcher === "string") {
+      return logEntry;
+    }
+    if (matcher.transform) {
+      return matcher.transform(logEntry);
+    }
+    return logEntry;
   };
 
 export const ObserveAgent = ({
@@ -65,17 +77,22 @@ export const ObserveAgent = ({
       mod.addLog({ traceId, message: "start", extra });
     },
     addLog: ({ traceId, message, timestamp = clock.now(), extra = [] }) => {
-      if (
-        !atLeastOneLogMatcherMatchesLogEntry(logMatchers)({
-          traceId,
-          message,
-          timestamp,
-          extra,
-        })
-      ) {
+      const logEntry: LogEntry = {
+        traceId,
+        message,
+        timestamp,
+        extra,
+      };
+      const logMatcherMaybe =
+        atLeastOneLogMatcherMatchesLogEntry(logMatchers)(logEntry);
+      if (!logMatcherMaybe) {
         return;
       }
-      logger(`${timestamp} ${traceId}: ${message}`, ...extra);
+      const transformedLogEntry = transformLogEntry(logMatcherMaybe)(logEntry);
+      logger(
+        `${transformedLogEntry.timestamp} ${transformedLogEntry.traceId}: ${transformedLogEntry.message}`,
+        ...(transformedLogEntry.extra ?? [])
+      );
     },
     end: (traceId, ...extra) => {
       mod.addLog({ traceId, message: "end", extra });
