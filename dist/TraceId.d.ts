@@ -4,4 +4,4 @@ export type ParsedTraceId<T extends string = string> = {
     segments: string[];
     subpath: string;
 };
-export declare const parseSubject: <T extends string = string>(subject: TraceId<T>) => ParsedTraceId<T>;
+export declare const parseTraceId: <T extends string = string>(subject: TraceId<T>) => ParsedTraceId<T>;
