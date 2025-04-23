@@ -10,4 +10,4 @@ export type ObserveAgent = {
     end: (traceId: TraceId) => void;
 };
 export declare const ObserveAgent: () => ObserveAgent;
-export declare const Observe: (name: string, agent?: ObserveAgent) => Observe;
+export declare const Observe: (name?: string, agent?: ObserveAgent) => Observe;

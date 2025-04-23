@@ -8,7 +8,7 @@ const e = () => ({
   end: (o) => {
     console.log(`End: ${o}`);
   }
-}), c = (o, t = e()) => {
+}), c = (o = "", t = e()) => {
   t.start(o);
   const s = {
     span: (r) => c(`${o}.${r}`, t),
