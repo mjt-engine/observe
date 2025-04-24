@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mjt-engine/cache':
+        specifier: github:mjt-engine/cache
+        version: https://codeload.github.com/mjt-engine/cache/tar.gz/1f7dba33f49bce1a232d2c147441579f026512a5
       '@mjt-engine/error':
         specifier: github:mjt-engine/error
         version: https://codeload.github.com/mjt-engine/error/tar.gz/9b170db171d86c3a1a0afdc6c7de205259a3b564
@@ -188,6 +191,10 @@ packages:
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
+
+  '@mjt-engine/cache@https://codeload.github.com/mjt-engine/cache/tar.gz/1f7dba33f49bce1a232d2c147441579f026512a5':
+    resolution: {tarball: https://codeload.github.com/mjt-engine/cache/tar.gz/1f7dba33f49bce1a232d2c147441579f026512a5}
+    version: 2025.3.6-851
 
   '@mjt-engine/error@https://codeload.github.com/mjt-engine/error/tar.gz/9b170db171d86c3a1a0afdc6c7de205259a3b564':
     resolution: {tarball: https://codeload.github.com/mjt-engine/error/tar.gz/9b170db171d86c3a1a0afdc6c7de205259a3b564}
@@ -778,6 +785,10 @@ snapshots:
       '@shikijs/vscode-textmate': 10.0.2
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
+
+  '@mjt-engine/cache@https://codeload.github.com/mjt-engine/cache/tar.gz/1f7dba33f49bce1a232d2c147441579f026512a5':
+    dependencies:
+      '@mjt-engine/object': https://codeload.github.com/mjt-engine/object/tar.gz/75263a186b55c31764efb3a1bc075285f971946b
 
   '@mjt-engine/error@https://codeload.github.com/mjt-engine/error/tar.gz/9b170db171d86c3a1a0afdc6c7de205259a3b564':
     dependencies:

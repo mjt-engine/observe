@@ -1,8 +1,8 @@
 import { describe, test, expect } from "vitest";
-import { Observe } from "./Observe";
+import { Observe } from "../observe/Observe";
 import { ObserveAgent } from "./ObserveAgent";
 
-describe("Observe", () => {
+describe("ObserveAgent", () => {
   test("logging", () => {
     type LogItem = {
       message: string;
@@ -137,7 +137,7 @@ describe("Observe", () => {
     const logMessages: LogItem[] = [];
     const testLogger = (message: string, ...extra: unknown[]) => {
       logMessages.push({ message, extra });
-      console.log(message, ...extra);
+      // console.log(message, ...extra);
     };
     let clockStep = 0;
     const agent = ObserveAgent({
@@ -181,6 +181,65 @@ describe("Observe", () => {
         "7 root.span2: transformed test message2"
       );
       expect(logMessages[1].extra).toEqual(["a", "b", 42]);
+    }
+  });
+  test("count stats", () => {
+    type LogItem = {
+      message: string;
+      extra: unknown[];
+    };
+    const logMessages: LogItem[] = [];
+    const testLogger = (message: string, ...extra: unknown[]) => {
+      logMessages.push({ message, extra });
+      console.log(message, ...extra);
+    };
+    let clockStep = 0;
+    const agent = ObserveAgent({
+      logMatchers: [
+        // {
+        //   // traceId: "root.*.span",
+        //   // message: "test message",
+        //   // extra: (extra) => {
+        //   //   return extra.length === 3;
+        //   // },
+        //   // transform: (logEntry) => {
+        //   //   return { ...logEntry, message: `transformed ${logEntry.message}` };
+        //   // },
+        // },
+      ],
+      logger: testLogger,
+      clock: {
+        now: () => clockStep++,
+      },
+    });
+    {
+      const obs = Observe("root", agent);
+      obs.span("span1").log("test message");
+      obs.span("span1").log("test message2");
+      obs.span("span1").log("test message3");
+
+      obs.span("span2").counter("counter1");
+      obs.span("span2").counter("counter1");
+      obs.span("span2").counter("counter1");
+      obs.span("span2").counter("counter2");
+      obs.span("span2").counter("counter2");
+
+      const timer1 = obs.timer("test1");
+      timer1.end();
+      const timer2 = obs.timer("test1");
+      timer2.end();
+
+      expect(agent.getStats("root").getTimes().length).toEqual(1);
+      expect(agent.getStats("root").getTimes()[0].getDuration()).greaterThan(0);
+      expect(agent.getStats("root").getCount()).toEqual(1);
+      expect(agent.getStats("root.span1").getCount()).toEqual(3);
+      expect(agent.getStats("root.span2").getCounter("counter1")).toEqual(3);
+      expect(agent.getStats("root.span2").getCounter("counter2")).toEqual(2);
+      expect(agent.getTraceIds()).toEqual(["root", "root.span1", "root.span2"]);
+      expect(agent.getStats("root").getTimers("test1").length).toEqual(2);
+      expect(
+        agent.getStats("root").getTimers("test1")[0].getDuration()
+      ).greaterThan(0);
     }
   });
 });

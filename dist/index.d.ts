@@ -1,3 +1,3 @@
-export * from "./Observe";
-export * from "./ObserveAgent";
-export * from "./TraceId";
+export * from "./observe/Observe";
+export * from "./agent/ObserveAgent";
+export * from "./type/TraceId";
