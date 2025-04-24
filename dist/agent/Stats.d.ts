@@ -5,6 +5,7 @@ export type Stats = {
     clearCount: () => Stats;
     timer: (name: string) => Timer;
     time: () => Timer;
+    lastTime: () => Timer | undefined;
     getTimes: () => Timer[];
     getCount: () => number;
     getCounter: (name: string) => number;

@@ -2,6 +2,7 @@
 
 
 ## 2025-04-23
+- add end of time at span end ([c0f3856](https://github.com/mjt-engine/observe/commit/c0f3856c05a9d6cdb0a272e64187758368356dd1)) by Matt Taylor
 - added stats ([ad3f7fd](https://github.com/mjt-engine/observe/commit/ad3f7fd6572a368c0dc1cbc16467068be6959899)) by Matt Taylor
 - added log transform ([af4e2f7](https://github.com/mjt-engine/observe/commit/af4e2f7487e765a5a61cad6ec0787da5b8850831)) by Matt Taylor
 - more complex log matching ([ec3e7f0](https://github.com/mjt-engine/observe/commit/ec3e7f087eadcefa771eef0ece928bda92338001)) by Matt Taylor
