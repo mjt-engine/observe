@@ -7,6 +7,7 @@ export type ObserveAgent = {
     addLog: (entry: LogEntry) => void;
     end: (traceId: TraceId, ...extra: unknown[]) => void;
     getStats: (traceId: TraceId) => Stats;
+    getTraceIds: () => TraceId[];
 };
 export declare const ObserveAgent: ({ logMatchers, logger, clock, }?: Partial<{
     logMatchers: (string | LogMatcher)[];
