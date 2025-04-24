@@ -53,6 +53,7 @@ export const ObserveAgent = ({
       );
     },
     end: (traceId, ...extra) => {
+      mod.getStats(traceId).lastTime()?.end();
       mod.addLog({ traceId, message: "end", extra });
     },
   };

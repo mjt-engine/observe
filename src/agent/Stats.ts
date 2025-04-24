@@ -8,6 +8,7 @@ export type Stats = {
   clearCount: () => Stats;
   timer: (name: string) => Timer;
   time: () => Timer;
+  lastTime: () => Timer | undefined;
   getTimes: () => Timer[];
   getCount: () => number;
   getCounter: (name: string) => number;
@@ -23,8 +24,11 @@ export const Stats = (max = 100): Stats => {
   const times = MaxLengthArray<Timer>(max);
 
   const mod: Stats = {
+    lastTime: () => {
+      return times.last();
+    },
     time: () => {
-      const last = times.last();
+      const last = mod.lastTime();
       if (isDefined(last)) {
         last.end();
       }
