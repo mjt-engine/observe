@@ -62,8 +62,7 @@ export const Stats = (max = 100): Stats => {
       counters.set(name, current + value);
     },
     gauge: (name: string, value: number = 1) => {
-      const current = gauges.get(name) ?? 0;
-      gauges.set(name, current + value);
+      gauges.set(name, value);
     },
     getCounters: () => {
       return new Map(counters);
