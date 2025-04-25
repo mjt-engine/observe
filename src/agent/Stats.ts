@@ -61,7 +61,7 @@ export const Stats = (max = 100): Stats => {
       const current = counters.get(name) ?? 0;
       counters.set(name, current + value);
     },
-    gauge: (name: string, value: number = 1) => {
+    gauge: (name: string, value = 0) => {
       gauges.set(name, value);
     },
     getCounters: () => {
