@@ -1,4 +1,11 @@
-const h = (t) => t == null || Number.isNaN(t), w = (t) => !h(t), M = {
+const A = (t) => {
+  const e = t.split("."), r = e.shift(), n = e.join(".");
+  return {
+    root: r,
+    segments: e,
+    subpath: n
+  };
+}, h = (t) => t == null || Number.isNaN(t), w = (t) => !h(t), M = {
   isDefined: w,
   isUndefined: h
 }, { isDefined: f, isUndefined: S } = M, T = (t, e, r) => {
@@ -156,13 +163,6 @@ const h = (t) => t == null || Number.isNaN(t), w = (t) => !h(t), M = {
     log: (n, ...s) => (e.log({ traceId: t, message: n, extra: s }), r)
   };
   return r;
-}, A = (t) => {
-  const e = t.split("."), r = e.shift(), n = e.join(".");
-  return {
-    root: r,
-    segments: e,
-    subpath: n
-  };
 };
 export {
   U as Observe,
