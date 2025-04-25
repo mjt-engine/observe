@@ -2,6 +2,7 @@
 
 
 ## 2025-04-25
+- better default for gauge value ([4049750](https://github.com/mjt-engine/observe/commit/4049750677f36e672b104b0b2b708e9301059764)) by Matt Taylor
 - fix bug in guage ([623c833](https://github.com/mjt-engine/observe/commit/623c833e5c0c01adb60c2f27cea32fb48e34867d)) by Matt Taylor
 - export LogEntry type ([5f14280](https://github.com/mjt-engine/observe/commit/5f142805aa0e58fd61c638d92c1bb01ba4f1cf0e)) by Matt Taylor
 - export Stats and Timer modules ([a74ab71](https://github.com/mjt-engine/observe/commit/a74ab71a19e74f800d783519dbb03aeab1783e1e)) by Matt Taylor

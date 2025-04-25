@@ -91,7 +91,7 @@ const A = (t) => {
       const i = r.get(o) ?? 0;
       r.set(o, i + c);
     },
-    gauge: (o, c = 1) => {
+    gauge: (o, c = 0) => {
       n.set(o, c);
     },
     getCounters: () => new Map(r),
