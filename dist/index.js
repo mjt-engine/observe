@@ -167,5 +167,7 @@ const h = (t) => t == null || Number.isNaN(t), w = (t) => !h(t), M = {
 export {
   U as Observe,
   O as ObserveAgent,
+  C as Stats,
+  p as Timer,
   A as parseTraceId
 };

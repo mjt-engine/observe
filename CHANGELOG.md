@@ -2,6 +2,7 @@
 
 
 ## 2025-04-25
+- export Stats and Timer modules ([a74ab71](https://github.com/mjt-engine/observe/commit/a74ab71a19e74f800d783519dbb03aeab1783e1e)) by Matt Taylor
 - added guages and other methods to Observe module/Stats module ([38db958](https://github.com/mjt-engine/observe/commit/38db958629ad5a03c413b79f38b7e155f6f245d9)) by Matt Taylor
 
 ## 2025-04-23
