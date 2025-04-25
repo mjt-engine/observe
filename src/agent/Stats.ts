@@ -4,8 +4,8 @@ import { Timer } from "./Timer";
 
 export type Stats = {
   count: (value?: number) => void;
-  counter: (name: string, value?: number) => void;
-  clearCount: () => Stats;
+  increment: (name: string, value?: number) => void;
+  gauge: (name: string, value?: number) => void;
   timer: (name: string) => Timer;
   time: () => Timer;
   lastTime: () => Timer | undefined;
@@ -13,17 +13,28 @@ export type Stats = {
   getCount: () => number;
   getCounter: (name: string) => number;
   getCounters: () => Map<string, number>;
+  getGauge: (name: string) => number;
+  getGauges: () => Map<string, number>;
   getTimers: (name: string) => Timer[];
-  clearTimers: (name: string) => Stats;
+  clear: () => Stats;
 };
 
 export const Stats = (max = 100): Stats => {
   let count = 0;
   const counters = new Map<string, number>();
+  const gauges = new Map<string, number>();
   const timers = new Map<string, MaxLengthArray<Timer>>();
   const times = MaxLengthArray<Timer>(max);
 
   const mod: Stats = {
+    clear: () => {
+      count = 0;
+      counters.clear();
+      gauges.clear();
+      timers.clear();
+      times.clear();
+      return mod;
+    },
     lastTime: () => {
       return times.last();
     },
@@ -46,9 +57,13 @@ export const Stats = (max = 100): Stats => {
       ts.push(timer);
       return timer;
     },
-    counter: (name: string, value: number = 1) => {
+    increment: (name: string, value: number = 1) => {
       const current = counters.get(name) ?? 0;
       counters.set(name, current + value);
+    },
+    gauge: (name: string, value: number = 1) => {
+      const current = gauges.get(name) ?? 0;
+      gauges.set(name, current + value);
     },
     getCounters: () => {
       return new Map(counters);
@@ -56,24 +71,21 @@ export const Stats = (max = 100): Stats => {
     getCounter: (name: string) => {
       return counters.get(name) ?? 0;
     },
+    getGauge: (name: string) => {
+      return gauges.get(name) ?? 0;
+    },
+    getGauges: () => {
+      return new Map(gauges);
+    },
     count: (value: number = 1) => {
       count += value;
     },
     getCount: () => {
       return count;
     },
-    clearCount: () => {
-      count = 0;
-      return mod;
-    },
     getTimers: (name) => {
       const ts = timers.get(name) ?? MaxLengthArray(max);
       return ts.get();
-    },
-    clearTimers: (name) => {
-      const ts = timers.get(name) ?? MaxLengthArray(max);
-      ts.clear();
-      return mod;
     },
   };
   return mod;

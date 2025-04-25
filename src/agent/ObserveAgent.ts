@@ -8,7 +8,7 @@ import { Stats } from "./Stats";
 
 export type ObserveAgent = {
   start: (traceId: TraceId, ...extra: unknown[]) => void;
-  addLog: (entry: LogEntry) => void;
+  log: (entry: LogEntry) => void;
   end: (traceId: TraceId, ...extra: unknown[]) => void;
   getStats: (traceId: TraceId) => Stats;
   getTraceIds: () => TraceId[];
@@ -18,10 +18,12 @@ export const ObserveAgent = ({
   logMatchers = [],
   logger = console.log,
   clock = performance,
+  maxSampleSize = 100,
 }: Partial<{
   logMatchers: (string | LogMatcher)[];
   logger: typeof console.log;
   clock: { now: () => number };
+  maxSampleSize: number;
 }> = {}): ObserveAgent => {
   const stats = Caches.create<Stats>();
 
@@ -30,11 +32,11 @@ export const ObserveAgent = ({
     start: (traceId, ...extra) => {
       mod.getStats(traceId).count();
       mod.getStats(traceId).time();
-      mod.addLog({ traceId, message: "start", extra });
+      mod.log({ traceId, message: "start", extra });
     },
-    getStats: (traceId) => stats.get(traceId, () => Stats())!,
+    getStats: (traceId) => stats.get(traceId, () => Stats(maxSampleSize))!,
 
-    addLog: ({ traceId, message, timestamp = clock.now(), extra = [] }) => {
+    log: ({ traceId, message, timestamp = clock.now(), extra = [] }) => {
       const logEntry: LogEntry = {
         traceId,
         message,
@@ -54,7 +56,7 @@ export const ObserveAgent = ({
     },
     end: (traceId, ...extra) => {
       mod.getStats(traceId).lastTime()?.end();
-      mod.addLog({ traceId, message: "end", extra });
+      mod.log({ traceId, message: "end", extra });
     },
   };
   return mod;

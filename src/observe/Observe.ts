@@ -3,8 +3,11 @@ import { Timer } from "../agent/Timer";
 
 export type Observe = {
   span: (spanId: string) => Observe;
-  counter: (name: string, number?: number) => Observe;
+  increment: (name: string, count?: number) => Observe;
+  gauge: (name: string, value: number) => Observe;
   timer: (name: string) => Timer;
+  sample: (probability: number, name: string, fn: () => number) => Observe;
+  when: (filter: () => boolean, name: string, fn: () => number) => Observe;
   log: (message: string, ...extra: unknown[]) => Observe;
   end: () => Observe;
 };
@@ -15,20 +18,38 @@ export const Observe = (
 ) => {
   agent.start(traceId);
   const mod: Observe = {
-    span: (spanId: string) => Observe(`${traceId}.${spanId}`, agent),
-    counter: (name: string, count = 1) => {
-      agent.getStats(traceId).counter(name, count);
+    span: (spanId) => Observe(`${traceId}.${spanId}`, agent),
+    increment: (name, count = 1) => {
+      agent.getStats(traceId).increment(name, count);
       return mod;
     },
-    timer: (name: string) => {
+    sample: (probability, name, fn) => {
+      if (Math.random() < probability) {
+        const value = fn();
+        mod.gauge(name, value);
+      }
+      return mod;
+    },
+    when: (filter, name, fn) => {
+      if (filter()) {
+        const value = fn();
+        mod.gauge(name, value);
+      }
+      return mod;
+    },
+    gauge: (name, value) => {
+      agent.getStats(traceId).gauge(name, value);
+      return mod;
+    },
+    timer: (name) => {
       return agent.getStats(traceId).timer(name);
     },
     end: () => {
       agent.end(traceId);
       return mod;
     },
-    log: (message: string, ...extra) => {
-      agent.addLog({ traceId, message, extra });
+    log: (message, ...extra) => {
+      agent.log({ traceId, message, extra });
       return mod;
     },
   };

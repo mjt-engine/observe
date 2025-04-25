@@ -218,11 +218,11 @@ describe("ObserveAgent", () => {
       obs.span("span1").log("test message2");
       obs.span("span1").log("test message3");
 
-      obs.span("span2").counter("counter1");
-      obs.span("span2").counter("counter1");
-      obs.span("span2").counter("counter1");
-      obs.span("span2").counter("counter2");
-      obs.span("span2").counter("counter2");
+      obs.span("span2").increment("counter1");
+      obs.span("span2").increment("counter1");
+      obs.span("span2").increment("counter1");
+      obs.span("span2").increment("counter2");
+      obs.span("span2").increment("counter2");
 
       const timer1 = obs.timer("test1");
       timer1.end();
