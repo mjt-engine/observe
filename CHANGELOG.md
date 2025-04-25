@@ -2,6 +2,7 @@
 
 
 ## 2025-04-25
+- fix bug in guage ([623c833](https://github.com/mjt-engine/observe/commit/623c833e5c0c01adb60c2f27cea32fb48e34867d)) by Matt Taylor
 - export LogEntry type ([5f14280](https://github.com/mjt-engine/observe/commit/5f142805aa0e58fd61c638d92c1bb01ba4f1cf0e)) by Matt Taylor
 - export Stats and Timer modules ([a74ab71](https://github.com/mjt-engine/observe/commit/a74ab71a19e74f800d783519dbb03aeab1783e1e)) by Matt Taylor
 - added guages and other methods to Observe module/Stats module ([38db958](https://github.com/mjt-engine/observe/commit/38db958629ad5a03c413b79f38b7e155f6f245d9)) by Matt Taylor
