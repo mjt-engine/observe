@@ -1,8 +1,8 @@
 import { Timer } from "./Timer";
 export type Stats = {
     count: (value?: number) => void;
-    counter: (name: string, value?: number) => void;
-    clearCount: () => Stats;
+    increment: (name: string, value?: number) => void;
+    gauge: (name: string, value?: number) => void;
     timer: (name: string) => Timer;
     time: () => Timer;
     lastTime: () => Timer | undefined;
@@ -10,7 +10,9 @@ export type Stats = {
     getCount: () => number;
     getCounter: (name: string) => number;
     getCounters: () => Map<string, number>;
+    getGauge: (name: string) => number;
+    getGauges: () => Map<string, number>;
     getTimers: (name: string) => Timer[];
-    clearTimers: (name: string) => Stats;
+    clear: () => Stats;
 };
 export declare const Stats: (max?: number) => Stats;

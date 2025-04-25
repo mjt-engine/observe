@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 2025-04-25
+- added guages and other methods to Observe module/Stats module ([38db958](https://github.com/mjt-engine/observe/commit/38db958629ad5a03c413b79f38b7e155f6f245d9)) by Matt Taylor
+
 ## 2025-04-23
 - add end of time at span end ([c0f3856](https://github.com/mjt-engine/observe/commit/c0f3856c05a9d6cdb0a272e64187758368356dd1)) by Matt Taylor
 - added stats ([ad3f7fd](https://github.com/mjt-engine/observe/commit/ad3f7fd6572a368c0dc1cbc16467068be6959899)) by Matt Taylor
