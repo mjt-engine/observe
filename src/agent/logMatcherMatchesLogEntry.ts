@@ -5,7 +5,7 @@ import { LogMatcher } from "./LogMatcher";
 export const logMatcherMatchesLogEntry =
   (logMatcher: string | LogMatcher) => (logEntry: LogEntry) => {
     if (typeof logMatcher === "string") {
-      return safe(() => new RegExp(logMatcher).test(logEntry.traceId), {
+      return safe(() => new RegExp(logMatcher, 'm').test(logEntry.traceId), {
         default: false,
         quiet: true,
       });
