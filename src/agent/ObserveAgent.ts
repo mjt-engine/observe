@@ -12,6 +12,9 @@ export type ObserveAgent = {
   end: (traceId: TraceId, ...extra: unknown[]) => void;
   getStats: (traceId: TraceId) => Stats;
   getTraceIds: () => TraceId[];
+  updateLogMatchers: (
+    fn: (logMatchers: (string | LogMatcher)[]) => (string | LogMatcher)[]
+  ) => (string | LogMatcher)[];
 };
 
 export const ObserveAgent = ({
@@ -28,6 +31,11 @@ export const ObserveAgent = ({
   const stats = Caches.create<Stats>();
 
   const mod: ObserveAgent = {
+    updateLogMatchers: (fn) => {
+      const newLogMatchers = fn(logMatchers);
+      logMatchers = newLogMatchers;
+      return newLogMatchers;
+    },
     getTraceIds: () => stats.entries().map(([traceId]) => traceId as TraceId),
     start: (traceId, ...extra) => {
       mod.getStats(traceId).count();
