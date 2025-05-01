@@ -98,7 +98,7 @@ describe("ObserveAgent", () => {
           traceId: "root.*.span",
           message: "test message",
           extra: (extra) => {
-            return extra.length === 3;
+            return extra?.length === 3;
           },
         },
       ],
@@ -146,7 +146,7 @@ describe("ObserveAgent", () => {
           traceId: "root.*.span",
           message: "test message",
           extra: (extra) => {
-            return extra.length === 3;
+            return extra?.length === 3;
           },
           transform: (logEntry) => {
             return { ...logEntry, message: `transformed ${logEntry.message}` };

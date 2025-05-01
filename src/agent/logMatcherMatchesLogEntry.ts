@@ -10,8 +10,8 @@ export const logMatcherMatchesLogEntry =
     const {
       traceId,
       message,
-      extra = () => true,
-      timestamp = () => true,
+      extra ,
+      timestamp ,
     } = logMatcher;
     if (isDefined(traceId) && !safeRegexpTest(traceId, logEntry.traceId)) {
       return false;
@@ -19,10 +19,10 @@ export const logMatcherMatchesLogEntry =
     if (isDefined(message) && !safeRegexpTest(message, logEntry.message)) {
       return false;
     }
-    if (isDefined(logEntry.timestamp) && !timestamp(logEntry.timestamp)) {
+    if (isDefined(timestamp) && !timestamp(logEntry.timestamp)) {
       return false;
     }
-    if (isDefined(logEntry.extra) && !extra(logEntry.extra)) {
+    if (isDefined(extra) && !extra(logEntry.extra)) {
       return false;
     }
     return true;
