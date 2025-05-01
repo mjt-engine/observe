@@ -44,7 +44,7 @@ const R = (e) => {
   create: b
 }, y = (e) => (t) => {
   if (typeof e == "string")
-    return x(() => new RegExp(e).test(t.traceId), {
+    return x(() => new RegExp(e, "m").test(t.traceId), {
       default: !1,
       quiet: !0
     });
