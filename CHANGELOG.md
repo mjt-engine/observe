@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 2025-05-01
+- added ability to update log-matchers ([7b6c9b1](https://github.com/mjt-engine/observe/commit/7b6c9b14046350439fd91a7cf7ad21282fd8eff0)) by Matt Taylor
+
 ## 2025-04-25
 - better default for gauge value ([4049750](https://github.com/mjt-engine/observe/commit/4049750677f36e672b104b0b2b708e9301059764)) by Matt Taylor
 - fix bug in guage ([623c833](https://github.com/mjt-engine/observe/commit/623c833e5c0c01adb60c2f27cea32fb48e34867d)) by Matt Taylor

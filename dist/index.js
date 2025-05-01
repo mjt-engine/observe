@@ -1,78 +1,78 @@
-const A = (t) => {
-  const e = t.split("."), r = e.shift(), n = e.join(".");
+const A = (e) => {
+  const t = e.split("."), r = t.shift(), n = t.join(".");
   return {
     root: r,
-    segments: e,
+    segments: t,
     subpath: n
   };
-}, h = (t) => t == null || Number.isNaN(t), w = (t) => !h(t), M = {
+}, h = (e) => e == null || Number.isNaN(e), w = (e) => !h(e), M = {
   isDefined: w,
   isUndefined: h
-}, { isDefined: f, isUndefined: S } = M, T = (t, e, r) => {
-  if (S(t))
+}, { isDefined: f, isUndefined: L } = M, S = (e, t, r) => {
+  if (L(e))
     return;
-  const n = e.get(t);
+  const n = t.get(e);
   if (f(n))
     return n;
   if (f(r)) {
     const s = r();
-    return e.set(t, s), s;
+    return t.set(e, s), s;
   }
-}, x = () => {
-  const t = /* @__PURE__ */ new Map();
-  let e = performance.now();
+}, T = () => {
+  const e = /* @__PURE__ */ new Map();
+  let t = performance.now();
   const r = {
-    get: (n, s) => T(n, t, s),
-    set: (n, s) => (t.set(n, s), r),
-    delete: (n) => t.delete(n),
-    entries: () => Array.from(t.entries()),
-    clear: () => t.clear(),
-    size: () => t.size,
-    findKeys: (n) => Array.from(t.entries()).filter(([u, a]) => a === n).map(([u, a]) => u),
-    lastUpdate: () => e
+    get: (n, s) => S(n, e, s),
+    set: (n, s) => (e.set(n, s), r),
+    delete: (n) => e.delete(n),
+    entries: () => Array.from(e.entries()),
+    clear: () => e.clear(),
+    size: () => e.size,
+    findKeys: (n) => Array.from(e.entries()).filter(([u, a]) => a === n).map(([u, a]) => u),
+    lastUpdate: () => t
   };
   return r;
-}, L = {
-  create: x
-}, $ = (t) => (e) => {
-  if (typeof t == "string")
-    return new RegExp(t).test(e.traceId);
+}, x = {
+  create: T
+}, $ = (e) => (t) => {
+  if (typeof e == "string")
+    return new RegExp(e).test(t.traceId);
   const {
     traceId: r,
     message: n,
     extra: s = () => !0,
     timestamp: u = () => !0
-  } = t;
-  return !(r && !new RegExp(r).test(e.traceId) || n && !new RegExp(n).test(e.message) || e.timestamp && !u(e.timestamp) || e.extra && !s(e.extra));
-}, v = (t) => (e) => {
-  for (const r of t)
-    if ($(r)(e))
+  } = e;
+  return !(r && !new RegExp(r).test(t.traceId) || n && !new RegExp(n).test(t.message) || t.timestamp && !u(t.timestamp) || t.extra && !s(t.extra));
+}, v = (e) => (t) => {
+  for (const r of e)
+    if ($(r)(t))
       return r;
   return !1;
-}, b = (t) => (e) => typeof t == "string" ? e : t.transform ? t.transform(e) : e, m = (t) => {
-  const e = [], r = {
+}, b = (e) => (t) => typeof e == "string" ? t : e.transform ? e.transform(t) : t, m = (e) => {
+  const t = [], r = {
     length: 0,
     push: (n) => {
-      e.length >= t && e.shift(), e.push(n), r.length = e.length;
+      t.length >= e && t.shift(), t.push(n), r.length = t.length;
     },
-    get: () => e,
+    get: () => t,
     clear: () => {
-      e.length = 0, r.length = 0;
+      t.length = 0, r.length = 0;
     },
-    last: () => e[e.length - 1]
+    last: () => t[t.length - 1]
   };
   return r;
 }, p = () => {
-  let t = performance.now(), e;
+  let e = performance.now(), t;
   const r = {
-    end: () => (f(e) || (e = performance.now()), r),
-    getDuration: () => (e ?? performance.now()) - t
+    end: () => (f(t) || (t = performance.now()), r),
+    getDuration: () => (t ?? performance.now()) - e
   };
   return r;
-}, C = (t = 100) => {
-  let e = 0;
-  const r = /* @__PURE__ */ new Map(), n = /* @__PURE__ */ new Map(), s = /* @__PURE__ */ new Map(), u = m(t), a = {
-    clear: () => (e = 0, r.clear(), n.clear(), s.clear(), u.clear(), a),
+}, C = (e = 100) => {
+  let t = 0;
+  const r = /* @__PURE__ */ new Map(), n = /* @__PURE__ */ new Map(), s = /* @__PURE__ */ new Map(), u = m(e), a = {
+    clear: () => (t = 0, r.clear(), n.clear(), s.clear(), u.clear(), a),
     lastTime: () => u.last(),
     time: () => {
       const o = a.lastTime();
@@ -82,7 +82,7 @@ const A = (t) => {
     },
     getTimes: () => u.get(),
     timer: (o) => {
-      const c = s.get(o) ?? m(t);
+      const c = s.get(o) ?? m(e);
       s.set(o, c);
       const i = p();
       return c.push(i), i;
@@ -99,19 +99,23 @@ const A = (t) => {
     getGauge: (o) => n.get(o) ?? 0,
     getGauges: () => new Map(n),
     count: (o = 1) => {
-      e += o;
+      t += o;
     },
-    getCount: () => e,
-    getTimers: (o) => (s.get(o) ?? m(t)).get()
+    getCount: () => t,
+    getTimers: (o) => (s.get(o) ?? m(e)).get()
   };
   return a;
 }, O = ({
-  logMatchers: t = [],
-  logger: e = console.log,
+  logMatchers: e = [],
+  logger: t = console.log,
   clock: r = performance,
   maxSampleSize: n = 100
 } = {}) => {
-  const s = L.create(), u = {
+  const s = x.create(), u = {
+    updateLogMatchers: (a) => {
+      const o = a(e);
+      return e = o, o;
+    },
     getTraceIds: () => s.entries().map(([a]) => a),
     start: (a, ...o) => {
       u.getStats(a).count(), u.getStats(a).time(), u.log({ traceId: a, message: "start", extra: o });
@@ -123,11 +127,11 @@ const A = (t) => {
         message: o,
         timestamp: c,
         extra: i
-      }, d = v(t)(l);
+      }, d = v(e)(l);
       if (!d)
         return;
       const g = b(d)(l);
-      e(
+      t(
         `${g.timestamp} ${g.traceId}: ${g.message}`,
         ...g.extra ?? []
       );
@@ -137,11 +141,11 @@ const A = (t) => {
     }
   };
   return u;
-}, U = (t = "", e = O()) => {
-  e.start(t);
+}, U = (e = "", t = O()) => {
+  t.start(e);
   const r = {
-    span: (n) => U(`${t}.${n}`, e),
-    increment: (n, s = 1) => (e.getStats(t).increment(n, s), r),
+    span: (n) => U(`${e}.${n}`, t),
+    increment: (n, s = 1) => (t.getStats(e).increment(n, s), r),
     sample: (n, s, u) => {
       if (Math.random() < n) {
         const a = u();
@@ -156,10 +160,10 @@ const A = (t) => {
       }
       return r;
     },
-    gauge: (n, s) => (e.getStats(t).gauge(n, s), r),
-    timer: (n) => e.getStats(t).timer(n),
-    end: () => (e.end(t), r),
-    log: (n, ...s) => (e.log({ traceId: t, message: n, extra: s }), r)
+    gauge: (n, s) => (t.getStats(e).gauge(n, s), r),
+    timer: (n) => t.getStats(e).timer(n),
+    end: () => (t.end(e), r),
+    log: (n, ...s) => (t.log({ traceId: e, message: n, extra: s }), r)
   };
   return r;
 };

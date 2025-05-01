@@ -8,6 +8,7 @@ export type ObserveAgent = {
     end: (traceId: TraceId, ...extra: unknown[]) => void;
     getStats: (traceId: TraceId) => Stats;
     getTraceIds: () => TraceId[];
+    updateLogMatchers: (fn: (logMatchers: (string | LogMatcher)[]) => (string | LogMatcher)[]) => (string | LogMatcher)[];
 };
 export declare const ObserveAgent: ({ logMatchers, logger, clock, maxSampleSize, }?: Partial<{
     logMatchers: (string | LogMatcher)[];
