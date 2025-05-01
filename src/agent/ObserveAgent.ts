@@ -13,7 +13,9 @@ export type ObserveAgent = {
   getStats: (traceId: TraceId) => Stats;
   getTraceIds: () => TraceId[];
   updateLogMatchers: (
-    fn: (logMatchers: (string | LogMatcher)[]) => (string | LogMatcher)[]
+    fn: (
+      logMatchers: (RegExp | string | LogMatcher)[]
+    ) => (string | LogMatcher)[]
   ) => (string | LogMatcher)[];
 };
 

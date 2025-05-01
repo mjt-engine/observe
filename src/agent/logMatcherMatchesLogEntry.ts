@@ -1,14 +1,11 @@
-import { safe } from "@mjt-engine/object";
+import { isDefined, safe } from "@mjt-engine/object";
 import { LogEntry } from "../type/LogEntry";
 import { LogMatcher } from "./LogMatcher";
 
 export const logMatcherMatchesLogEntry =
-  (logMatcher: string | LogMatcher) => (logEntry: LogEntry) => {
-    if (typeof logMatcher === "string") {
-      return safe(() => new RegExp(logMatcher, 'm').test(logEntry.traceId), {
-        default: false,
-        quiet: true,
-      });
+  (logMatcher: RegExp | string | LogMatcher) => (logEntry: LogEntry) => {
+    if (typeof logMatcher === "string" || logMatcher instanceof RegExp) {
+      return safeRegexpTest(logMatcher, logEntry.traceId);
     }
     const {
       traceId,
@@ -16,17 +13,34 @@ export const logMatcherMatchesLogEntry =
       extra = () => true,
       timestamp = () => true,
     } = logMatcher;
-    if (traceId && !new RegExp(traceId).test(logEntry.traceId)) {
+    if (isDefined(traceId) && !safeRegexpTest(traceId, logEntry.traceId)) {
       return false;
     }
-    if (message && !new RegExp(message).test(logEntry.message)) {
+    if (isDefined(message) && !safeRegexpTest(message, logEntry.message)) {
       return false;
     }
-    if (logEntry.timestamp && !timestamp(logEntry.timestamp)) {
+    if (isDefined(logEntry.timestamp) && !timestamp(logEntry.timestamp)) {
       return false;
     }
-    if (logEntry.extra && !extra(logEntry.extra)) {
+    if (isDefined(logEntry.extra) && !extra(logEntry.extra)) {
       return false;
     }
     return true;
   };
+
+const safeRegexpTest = (
+  regexp: string | RegExp,
+  value: string,
+  flags = "m"
+) => {
+  if (typeof regexp === "string") {
+    return safe(() => new RegExp(regexp, flags).test(value), {
+      default: false,
+      quiet: true,
+    });
+  }
+  return safe(() => regexp.test(value), {
+    default: false,
+    quiet: true,
+  });
+};

@@ -11,9 +11,10 @@
     "build-docs": "pnpm run build && pnpm run docs",
     "changelog": "./scripts/changes.sh > CHANGELOG.md",
     "changelog-version": "pnpm run changelog && ./scripts/version.sh",
-    "publish": "pnpm run build-docs && pnpm run changelog-version",
+    "publish": "pnpm run test && pnpm run build-docs && pnpm run changelog-version",
     "check": "tsc --noEmit -w",
-    "test": "vitest",
+    "test:watch": "vitest",
+    "test": "vitest run",
     "start": "vite build --watch",
     "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "dts": "tsc"
