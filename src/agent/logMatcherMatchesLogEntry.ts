@@ -7,6 +7,7 @@ export const logMatcherMatchesLogEntry =
     if (typeof logMatcher === "string") {
       return safe(() => new RegExp(logMatcher).test(logEntry.traceId), {
         default: false,
+        quiet: true,
       });
     }
     const {
