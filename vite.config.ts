@@ -26,6 +26,7 @@ export default defineConfig({
       external: [], // Leave empty for fully self-contained
     },
     target: "esnext",
+    sourcemap: true,
   },
   plugins: [emitDtsPlugin()],
 });
