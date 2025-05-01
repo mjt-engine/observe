@@ -2,6 +2,7 @@
 
 
 ## 2025-05-01
+- allow regex for log matching ([c4c089f](https://github.com/mjt-engine/observe/commit/c4c089fe70d9b2360643376d8a82702df9f399a1)) by Matt Taylor
 - multiline regex log matcher ([bffa86d](https://github.com/mjt-engine/observe/commit/bffa86d17ae83153133d28e688418cb6c90b6173)) by Matt Taylor
 - quiet errors on bad log regex ([fe62ddf](https://github.com/mjt-engine/observe/commit/fe62ddfe6b515cf4e3b194f1f71ec469a3390541)) by Matt Taylor
 - bad regex on log match should not crash agent ([f8c9830](https://github.com/mjt-engine/observe/commit/f8c98307471d27de0b23945adb6b58b0657c914e)) by Matt Taylor
