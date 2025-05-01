@@ -2,7 +2,7 @@ import { LogEntry } from "../type/LogEntry";
 export type LogMatcher = Partial<{
     traceId: string | RegExp;
     message: string | RegExp;
-    timestamp: (timestamp: number) => boolean;
-    extra: (extra: unknown[]) => boolean;
+    timestamp: (timestamp?: number) => boolean;
+    extra: (extra?: unknown[]) => boolean;
     transform: (logEntry: LogEntry) => LogEntry;
 }>;
