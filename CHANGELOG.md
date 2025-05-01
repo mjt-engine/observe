@@ -2,6 +2,7 @@
 
 
 ## 2025-05-01
+- bad regex on log match should not crash agent ([f8c9830](https://github.com/mjt-engine/observe/commit/f8c98307471d27de0b23945adb6b58b0657c914e)) by Matt Taylor
 - added ability to update log-matchers ([7b6c9b1](https://github.com/mjt-engine/observe/commit/7b6c9b14046350439fd91a7cf7ad21282fd8eff0)) by Matt Taylor
 
 ## 2025-04-25
