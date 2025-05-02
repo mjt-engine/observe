@@ -2,6 +2,7 @@
 
 
 ## 2025-05-01
+- updated check scripts ([0eacd50](https://github.com/mjt-engine/observe/commit/0eacd50bb46f30617fb6b44e7d3411ae8684d0b9)) by Matt Taylor
 - log watcher added to type ([e436a2f](https://github.com/mjt-engine/observe/commit/e436a2fed3767a030fd500c172ce5f46de1931e2)) by Matt Taylor
 - fix logmatch logic on timestamp/extra matching ([017f862](https://github.com/mjt-engine/observe/commit/017f8620aaca26d5b18874c6fec67e83231e2f46)) by Matt Taylor
 - allow regex for log matching ([c4c089f](https://github.com/mjt-engine/observe/commit/c4c089fe70d9b2360643376d8a82702df9f399a1)) by Matt Taylor
