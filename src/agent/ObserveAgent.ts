@@ -42,7 +42,6 @@ export const ObserveAgent = ({
     start: (traceId, ...extra) => {
       mod.getStats(traceId).count();
       mod.getStats(traceId).time();
-      mod.log({ traceId, message: "start", extra });
     },
     getStats: (traceId) => stats.get(traceId, () => Stats(maxSampleSize))!,
 
@@ -66,7 +65,6 @@ export const ObserveAgent = ({
     },
     end: (traceId, ...extra) => {
       mod.getStats(traceId).lastTime()?.end();
-      mod.log({ traceId, message: "end", extra });
     },
   };
   return mod;

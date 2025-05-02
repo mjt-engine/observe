@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import { exec } from "node:child_process";
-import { dependencies, } from "./package.json";
+import { dependencies } from "./package.json";
 
 function emitDtsPlugin() {
   return {
@@ -23,6 +23,8 @@ function emitDtsPlugin() {
 
 export default defineConfig({
   build: {
+    target: "esnext",
+    sourcemap: true,
     lib: {
       entry: "src/index.ts",
       fileName: "index",
@@ -37,7 +39,6 @@ export default defineConfig({
         // ...Object.keys(peerDependencies || {}),
       ],
     },
-    target: "esnext",
   },
   plugins: [emitDtsPlugin()],
 });
