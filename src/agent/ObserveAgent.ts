@@ -1,7 +1,7 @@
 import { Cache, Caches } from "@mjt-engine/cache";
 import { LogEntry } from "../type/LogEntry";
 import { TraceId } from "../type/TraceId";
-import { LogMatcher } from "./LogMatcher";
+import { LogMatcher } from "../type/LogMatcher";
 import { atLeastOneLogMatcherMatchesLogEntry } from "./atLeastOneLogMatcherMatchesLogEntry";
 import { transformLogEntry } from "./transformLogEntry";
 import { Stats } from "./Stats";

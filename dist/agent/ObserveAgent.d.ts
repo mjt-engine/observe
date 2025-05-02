@@ -1,6 +1,6 @@
 import { LogEntry } from "../type/LogEntry";
 import { TraceId } from "../type/TraceId";
-import { LogMatcher } from "./LogMatcher";
+import { LogMatcher } from "../type/LogMatcher";
 import { Stats } from "./Stats";
 export type ObserveAgent = {
     start: (traceId: TraceId, ...extra: unknown[]) => void;

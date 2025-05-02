@@ -1,5 +1,5 @@
 import { LogEntry } from "../type/LogEntry";
-import { LogMatcher } from "./LogMatcher";
+import { LogMatcher } from "../type/LogMatcher";
 
 export const transformLogEntry =
   (matcher: RegExp | string | LogMatcher) => (logEntry: LogEntry) => {

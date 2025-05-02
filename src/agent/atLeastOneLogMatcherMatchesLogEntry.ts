@@ -1,5 +1,5 @@
 import { LogEntry } from "../type/LogEntry";
-import { LogMatcher } from "./LogMatcher";
+import { LogMatcher } from "../type/LogMatcher";
 import { logMatcherMatchesLogEntry } from "./logMatcherMatchesLogEntry";
 
 export const atLeastOneLogMatcherMatchesLogEntry =

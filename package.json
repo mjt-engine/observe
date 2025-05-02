@@ -17,6 +17,7 @@
     "test": "vitest run",
     "start": "vite build --watch",
     "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
+    "build:watch": "vite build --watch",
     "dts": "tsc"
   },
   "keywords": [],

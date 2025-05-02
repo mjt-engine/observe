@@ -1,4 +1,4 @@
-import { LogEntry } from "../type/LogEntry";
+import { LogEntry } from "./LogEntry";
 
 export type LogMatcher = Partial<{
   traceId: string | RegExp;

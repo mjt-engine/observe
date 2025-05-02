@@ -1,6 +1,6 @@
 import { isDefined, safe } from "@mjt-engine/object";
 import { LogEntry } from "../type/LogEntry";
-import { LogMatcher } from "./LogMatcher";
+import { LogMatcher } from "../type/LogMatcher";
 
 export const logMatcherMatchesLogEntry =
   (logMatcher: RegExp | string | LogMatcher) => (logEntry: LogEntry) => {
