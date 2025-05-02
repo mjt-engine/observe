@@ -32,12 +32,10 @@ describe("ObserveAgent", () => {
         .log("test message")
         .log("test message2", "a", "b", 42)
         .end();
-      expect(logMessages.length).toEqual(4);
-      expect(logMessages[0].message).toEqual("5 root.span2: start");
-      expect(logMessages[1].message).toEqual("6 root.span2: test message");
-      expect(logMessages[2].message).toEqual("7 root.span2: test message2");
-      expect(logMessages[2].extra).toEqual(["a", "b", 42]);
-      expect(logMessages[3].message).toEqual("8 root.span2: end");
+      expect(logMessages.length).toEqual(2);
+      expect(logMessages[0].message).toEqual("2 root.span2: test message");
+      expect(logMessages[1].message).toEqual("3 root.span2: test message2");
+      expect(logMessages[1].extra).toEqual(["a", "b", 42]);
     }
   });
   test("string matchers", () => {
@@ -72,12 +70,10 @@ describe("ObserveAgent", () => {
         .log("test message3")
         .end();
 
-      expect(logMessages.length).toEqual(3);
-      expect(logMessages[0].message).toEqual("8 root.span2.span3: start");
-      expect(logMessages[1].message).toEqual(
-        "9 root.span2.span3: test message3"
+      expect(logMessages.length).toEqual(1);
+      expect(logMessages[0].message).toEqual(
+        "4 root.span2.span3: test message3"
       );
-      expect(logMessages[2].message).toEqual("10 root.span2.span3: end");
     }
   });
 
@@ -122,9 +118,9 @@ describe("ObserveAgent", () => {
         .end();
 
       expect(logMessages.length).toEqual(2);
-      expect(logMessages[0].message).toEqual("3 root.span1: test message");
+      expect(logMessages[0].message).toEqual("1 root.span1: test message");
       expect(logMessages[0].extra).toEqual([1, 2, 3]);
-      expect(logMessages[1].message).toEqual("7 root.span2: test message2");
+      expect(logMessages[1].message).toEqual("3 root.span2: test message2");
       expect(logMessages[1].extra).toEqual(["a", "b", 42]);
     }
   });
@@ -174,11 +170,11 @@ describe("ObserveAgent", () => {
 
       expect(logMessages.length).toEqual(2);
       expect(logMessages[0].message).toEqual(
-        "3 root.span1: transformed test message"
+        "1 root.span1: transformed test message"
       );
       expect(logMessages[0].extra).toEqual([1, 2, 3]);
       expect(logMessages[1].message).toEqual(
-        "7 root.span2: transformed test message2"
+        "3 root.span2: transformed test message2"
       );
       expect(logMessages[1].extra).toEqual(["a", "b", 42]);
     }
