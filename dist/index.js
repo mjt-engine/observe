@@ -13,10 +13,10 @@ const R = (e) => {
   const {
     traceId: r,
     message: n,
-    extra: a,
+    extra: o,
     timestamp: u
   } = e;
-  return !(i(r) && !m(r, t.traceId) || i(n) && !m(n, t.message) || i(u) && !u(t.timestamp) || i(a) && !a(t.extra));
+  return !(i(r) && !m(r, t.traceId) || i(n) && !m(n, t.message) || i(u) && !u(t.timestamp) || i(o) && !o(t.extra));
 }, m = (e, t, r = "m") => typeof e == "string" ? d(() => new RegExp(e, r).test(t), {
   default: !1,
   quiet: !0
@@ -50,28 +50,28 @@ const R = (e) => {
   return r;
 }, x = (e = 100) => {
   let t = 0;
-  const r = /* @__PURE__ */ new Map(), n = /* @__PURE__ */ new Map(), a = /* @__PURE__ */ new Map(), u = l(e), o = {
-    clear: () => (t = 0, r.clear(), n.clear(), a.clear(), u.clear(), o),
+  const r = /* @__PURE__ */ new Map(), n = /* @__PURE__ */ new Map(), o = /* @__PURE__ */ new Map(), u = l(e), a = {
+    clear: () => (t = 0, r.clear(), n.clear(), o.clear(), u.clear(), a),
     lastTime: () => u.last(),
     time: () => {
-      const s = o.lastTime();
+      const s = a.lastTime();
       i(s) && s.end();
-      const g = w();
-      return u.push(g), g;
+      const c = w();
+      return u.push(c), c;
     },
     getTimes: () => u.get(),
     timer: (s) => {
-      const g = a.get(s) ?? l(e);
-      a.set(s, g);
-      const c = w();
-      return g.push(c), c;
+      const c = o.get(s) ?? l(e);
+      o.set(s, c);
+      const g = w();
+      return c.push(g), g;
     },
-    increment: (s, g = 1) => {
-      const c = r.get(s) ?? 0;
-      r.set(s, c + g);
+    increment: (s, c = 1) => {
+      const g = r.get(s) ?? 0;
+      r.set(s, g + c);
     },
-    gauge: (s, g = 0) => {
-      n.set(s, g);
+    gauge: (s, c = 0) => {
+      n.set(s, c);
     },
     getCounters: () => new Map(r),
     getCounter: (s) => r.get(s) ?? 0,
@@ -81,31 +81,31 @@ const R = (e) => {
       t += s;
     },
     getCount: () => t,
-    getTimers: (s) => (a.get(s) ?? l(e)).get()
+    getTimers: (s) => (o.get(s) ?? l(e)).get()
   };
-  return o;
+  return a;
 }, y = ({
   logMatchers: e = [],
   logger: t = console.log,
   clock: r = performance,
   maxSampleSize: n = 100
 } = {}) => {
-  const a = M.create(), u = {
-    updateLogMatchers: (o) => {
-      const s = o(e);
+  const o = M.create(), u = {
+    updateLogMatchers: (a) => {
+      const s = a(e);
       return e = s, s;
     },
-    getTraceIds: () => a.entries().map(([o]) => o),
-    start: (o, ...s) => {
-      u.getStats(o).count(), u.getStats(o).time(), u.log({ traceId: o, message: "start", extra: s });
+    getTraceIds: () => o.entries().map(([a]) => a),
+    start: (a, ...s) => {
+      u.getStats(a).count(), u.getStats(a).time();
     },
-    getStats: (o) => a.get(o, () => x(n)),
-    log: ({ traceId: o, message: s, timestamp: g = r.now(), extra: c = [] }) => {
+    getStats: (a) => o.get(a, () => x(n)),
+    log: ({ traceId: a, message: s, timestamp: c = r.now(), extra: g = [] }) => {
       const p = {
-        traceId: o,
+        traceId: a,
         message: s,
-        timestamp: g,
-        extra: c
+        timestamp: c,
+        extra: g
       }, h = T(e)(p);
       if (!h)
         return;
@@ -115,8 +115,8 @@ const R = (e) => {
         ...f.extra ?? []
       );
     },
-    end: (o, ...s) => {
-      u.getStats(o).lastTime()?.end(), u.log({ traceId: o, message: "end", extra: s });
+    end: (a, ...s) => {
+      u.getStats(a).lastTime()?.end();
     }
   };
   return u;
@@ -124,25 +124,25 @@ const R = (e) => {
   t.start(e);
   const r = {
     span: (n) => $(`${e}.${n}`, t),
-    increment: (n, a = 1) => (t.getStats(e).increment(n, a), r),
-    sample: (n, a, u) => {
+    increment: (n, o = 1) => (t.getStats(e).increment(n, o), r),
+    sample: (n, o, u) => {
       if (Math.random() < n) {
-        const o = u();
-        r.gauge(a, o);
+        const a = u();
+        r.gauge(o, a);
       }
       return r;
     },
-    when: (n, a, u) => {
+    when: (n, o, u) => {
       if (n()) {
-        const o = u();
-        r.gauge(a, o);
+        const a = u();
+        r.gauge(o, a);
       }
       return r;
     },
-    gauge: (n, a) => (t.getStats(e).gauge(n, a), r),
+    gauge: (n, o) => (t.getStats(e).gauge(n, o), r),
     timer: (n) => t.getStats(e).timer(n),
     end: () => (t.end(e), r),
-    log: (n, ...a) => (t.log({ traceId: e, message: n, extra: a }), r)
+    log: (n, ...o) => (t.log({ traceId: e, message: n, extra: o }), r)
   };
   return r;
 };
@@ -153,3 +153,4 @@ export {
   w as Timer,
   R as parseTraceId
 };
+//# sourceMappingURL=index.js.map
